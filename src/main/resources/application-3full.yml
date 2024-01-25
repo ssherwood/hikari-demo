@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: HikariDemo
+  datasource:
+    url: ${DATASOURCE_URL:jdbc:yugabytedb://localhost:5433/yugabyte}
+    driver-class-name: ${DATASOURCE_DRIVER_CLASS_NAME:com.yugabyte.Driver}
+    username: ${DATASOURCE_USERNAME:yugabyte}
+    password: ${DATASOURCE_PASSWORD:}
+    hikari:
+      minimum-idle: ${HIKARI_MINIMUM_IDLE:20}
+      maximum-pool-size: ${HIKARI_MAXIMUM_POOL_SIZE:20}
+      idle-timeout: ${HIKARI_IDLE_TIMEOUT:0}
+      max-lifetime: ${HIKARI_MAX_LIFETIME:21600000} # 6h
+      keepalive-time: ${HIKARI_KEEPALIVE_TIME:600000} # 10m
+      connection-init-sql: ${HIKARI_CONNECTION_INIT_SQL:} # e.g. select * from yb_yftt_demo
+      transaction-isolation: ${HIKARI_TRANSACTION_ISOLATION:TRANSACTION_READ_COMMITTED}
+      data-source-properties:
+        currentSchema: ${YSQL_CURRENT_SCHEMA:public}
+        connectTimeout: ${YSQL_CONNECT_TIMEOUT:15} # 15s
+        socketTimeout: ${YSQL_SOCKET_TIMEOUT:10} # 10s
+        options: ${YSQL_OPTIONS:-c statement_timeout=8s}
+        prepareThreshold: ${YSQL_PREPARE_THRESHOLD:1}
+        additionalEndpoints: ${YSQL_ADDITIONAL_ENDPOINTS:127.0.0.2:5433,127.0.0.3:5433}
+        load-balance: ${YSQL_LOAD_BALANCE:true}
+        topology-keys: ${YSQL_TOPOLOGY_KEYS:gcp.us-west1.*,gcp.us-central1.*:2,gcp.us-east1.*:3}

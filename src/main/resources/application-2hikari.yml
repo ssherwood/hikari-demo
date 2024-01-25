@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    hikari:
+      minimum-idle: 20
+      maximum-pool-size: 20
+      idle-timeout: 0
+      data-source-properties:
+        additionalEndpoints: 127.0.0.2:5433,127.0.0.3:5433
+        load-balance: true
+        topology-keys: gcp.us-west1.*:1,gcp.us-central1.*:2,gcp.us-east1.*:3
