@@ -15,5 +15,4 @@ management:
 logging.level:
   com.zaxxer.hikari: ${HIKARI_LOG_LEVEL:TRACE}
   com.zaxxer.hikari.HikariConfig: ${HIKARI_CONFIG_LOG_LEVEL:DEBUG}
-  #com.yugabyte: ${YB_LOG_LEVEL:DEBUG}
   com.yugabyte.Driver: ${YB_DRIVER_LOG_LEVEL:DEBUG} # use DEBUG for connection info

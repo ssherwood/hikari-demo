@@ -2,7 +2,7 @@ spring:
   application:
     name: HikariDemo
   datasource:
-    url: ${DATASOURCE_URL:jdbc:yugabytedb://localhost:5433/yugabyte}
+    url: ${DATASOURCE_URL:jdbc:yugabytedb://127.0.0.1:5433/yugabyte}
     driver-class-name: ${DATASOURCE_DRIVER_CLASS_NAME:com.yugabyte.Driver}
     username: ${DATASOURCE_USERNAME:yugabyte}
     password: ${DATASOURCE_PASSWORD:}
@@ -16,10 +16,25 @@ spring:
       transaction-isolation: ${HIKARI_TRANSACTION_ISOLATION:TRANSACTION_READ_COMMITTED}
       data-source-properties:
         currentSchema: ${YSQL_CURRENT_SCHEMA:public}
-        connectTimeout: ${YSQL_CONNECT_TIMEOUT:15} # 15s
-        socketTimeout: ${YSQL_SOCKET_TIMEOUT:10} # 10s
+        connectTimeout: ${YSQL_CONNECT_TIMEOUT:15} # 15s (default 10s)
+        socketTimeout: ${YSQL_SOCKET_TIMEOUT:10} # 10s (default 0s)
         options: ${YSQL_OPTIONS:-c statement_timeout=8s}
         prepareThreshold: ${YSQL_PREPARE_THRESHOLD:1}
         additionalEndpoints: ${YSQL_ADDITIONAL_ENDPOINTS:127.0.0.2:5433,127.0.0.3:5433}
         load-balance: ${YSQL_LOAD_BALANCE:true}
-        topology-keys: ${YSQL_TOPOLOGY_KEYS:gcp.us-west1.*,gcp.us-central1.*:2,gcp.us-east1.*:3}
+        topology-keys: ${YSQL_TOPOLOGY_KEYS:gcp.us-west1.*:1,gcp.us-central1.*:2,gcp.us-east1.*:3}
+  jpa:
+    open-in-view: ${JPA_OPEN_IN_VIEW:false}
+    hibernate:
+      ddl-auto: ${HIBERNATE_DDL_AUTO:none}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" # turn these off for prod
+
+logging.level:
+  com.zaxxer.hikari: ${HIKARI_LOG_LEVEL:TRACE}
+  com.zaxxer.hikari.HikariConfig: ${HIKARI_CONFIG_LOG_LEVEL:DEBUG}
+  com.yugabyte.Driver: ${YB_DRIVER_LOG_LEVEL:DEBUG} # use DEBUG for connection info
