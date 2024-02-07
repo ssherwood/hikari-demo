@@ -22,8 +22,8 @@ spring:
         options: ${YSQL_OPTIONS:-c statement_timeout=8s}
         prepareThreshold: ${YSQL_PREPARE_THRESHOLD:1}
         additionalEndpoints: ${YSQL_ADDITIONAL_ENDPOINTS:127.0.0.2:5433,127.0.0.3:5433}
-        #load-balance: ${YSQL_LOAD_BALANCE:true}
-        #topology-keys: ${YSQL_TOPOLOGY_KEYS:gcp.us-west1.*:1,gcp.us-central1.*:2,gcp.us-east1.*:3}
+        load-balance: ${YSQL_LOAD_BALANCE:true}
+        topology-keys: ${YSQL_TOPOLOGY_KEYS:gcp.us-west1.*:1,gcp.us-central1.*:2,gcp.us-east1.*:3}
   jpa:
     open-in-view: ${JPA_OPEN_IN_VIEW:false}
     show-sql: true
