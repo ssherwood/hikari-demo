@@ -20,4 +20,11 @@ public class DemoService {
     public Optional<DemoEntity> findById(UUID id) {
         return demoRepo.findById(id);
     }
+
+    @Transactional
+    public Optional<DemoEntity> save(DemoEntity entity) {
+        var demo = 1;
+        var result = Optional.of(demoRepo.save(entity));
+        return result;
+    }
 }

@@ -1,11 +1,9 @@
 package com.yugabyte.yftt.hikaridemo.usecase;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @RestController
@@ -22,4 +20,11 @@ public class DemoController {
         return ResponseEntity.of(demoService.findById(id));
     }
 
+    @PostMapping("/")
+    public ResponseEntity<DemoEntity> save(@RequestBody DemoEntity entity) {
+        entity.setCreatedDate(OffsetDateTime.now());
+        entity.setUpdatedDate(OffsetDateTime.now());
+        var response = demoService.save(entity);
+        return ResponseEntity.of(response);
+    }
 }

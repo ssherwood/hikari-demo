@@ -14,6 +14,7 @@ spring:
       keepalive-time: ${HIKARI_KEEPALIVE_TIME:600000} # 10m
       connection-init-sql: ${HIKARI_CONNECTION_INIT_SQL:} # e.g. select * from yb_yftt_demo
       transaction-isolation: ${HIKARI_TRANSACTION_ISOLATION:TRANSACTION_READ_COMMITTED}
+      auto-commit: false
       data-source-properties:
         currentSchema: ${YSQL_CURRENT_SCHEMA:public}
         connectTimeout: ${YSQL_CONNECT_TIMEOUT:15} # 15s (default 10s)
@@ -21,12 +22,16 @@ spring:
         options: ${YSQL_OPTIONS:-c statement_timeout=8s}
         prepareThreshold: ${YSQL_PREPARE_THRESHOLD:1}
         additionalEndpoints: ${YSQL_ADDITIONAL_ENDPOINTS:127.0.0.2:5433,127.0.0.3:5433}
-        load-balance: ${YSQL_LOAD_BALANCE:true}
-        topology-keys: ${YSQL_TOPOLOGY_KEYS:gcp.us-west1.*:1,gcp.us-central1.*:2,gcp.us-east1.*:3}
+        #load-balance: ${YSQL_LOAD_BALANCE:true}
+        #topology-keys: ${YSQL_TOPOLOGY_KEYS:gcp.us-west1.*:1,gcp.us-central1.*:2,gcp.us-east1.*:3}
   jpa:
     open-in-view: ${JPA_OPEN_IN_VIEW:false}
+    show-sql: true
     hibernate:
       ddl-auto: ${HIBERNATE_DDL_AUTO:none}
+    properties:
+      hibernate.generate_statistics: true
+      hibernate.connection.provider_disables_autocommit: true
 
 management:
   endpoints:
@@ -37,4 +42,6 @@ management:
 logging.level:
   com.zaxxer.hikari: ${HIKARI_LOG_LEVEL:TRACE}
   com.zaxxer.hikari.HikariConfig: ${HIKARI_CONFIG_LOG_LEVEL:DEBUG}
-  com.yugabyte.Driver: ${YB_DRIVER_LOG_LEVEL:DEBUG} # use DEBUG for connection info
+  com.yugabyte.Driver: ${YB_DRIVER_LOG_LEVEL:TRACE} # use DEBUG for connection info
+  com.yugabyte.jdbc.PgConnection: DEBUG
+  org.springframework.transaction.interceptor: TRACE
